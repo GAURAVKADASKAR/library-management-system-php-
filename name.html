@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popover with Dynamic Content</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Button to trigger popover -->
+    <button id="popoverButton" type="button" class="btn btn-primary">Open Popover</button>
+
+    <!-- Hidden div with content to display in popover -->
+    <div id="contentToDisplay" style="display: none;">
+        <p>This is the content that will be shown in the popover.</p>
+        <ul>
+            <li>Data item 1</li>
+            <li>Data item 2</li>
+            <li>Data item 3</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var popoverButton = document.getElementById('popoverButton');
+        var contentToDisplay = document.getElementById('contentToDisplay');
+
+        var popover = new bootstrap.Popover(popoverButton, {
+            container: 'body',
+            html: true,
+            trigger: 'click',
+            content: function() {
+                return contentToDisplay.innerHTML;
+            }
+        });
+
+        popoverButton.addEventListener('click', function() {
+            // Update popover content dynamically
+            var popoverContent = contentToDisplay.innerHTML;
+            popover._element.setAttribute('data-bs-content', popoverContent);
+        });
+
+        // Optional: Close popover when clicking outside of it
+        document.addEventListener('click', function (e) {
+            if (!popoverButton.contains(e.target)) {
+                popover.hide();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
